@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Produtos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 70%; /* Define uma largura menor para os campos */
+            padding: 10px;
+            margin: 10px 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result h2 {
+            color: #28a745;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <!-- Substitua "sua-imagem.png" pelo caminho correto da sua imagem -->
+            <img src="logo.png" alt="Imagem da Calculadora de Produtos">
+        </div>
+        
+        <h1>Calculadora de Produtos para Hectares</h1>
+        <form id="calculoForm">
+            <label for="cultura">Tipo de Cultura:</label>
+            <select id="cultura" name="cultura" required>
+                <option value="soja">Soja</option>
+                <option value="milho">Milho</option>
+                <option value="cana">Cana</option>
+            </select>
+            
+            <label for="hectares">Quantidade de Hectares:</label>
+            <input type="number" id="hectares" name="hectares" required>
+            
+            <label for="microorganismos">Microorganismos:</label>
+            <input type="text" id="microorganismos" name="microorganismos" required>
+
+            <label for="capacidade_equipamento">Capacidade do Equipamento (em litros):</label>
+            <input type="number" id="capacidade_equipamento" name="capacidade_equipamento" required>
+
+            <label for="horas_multiplicacao">Horas de Multiplicação:</label>
+            <input type="number" id="horas_multiplicacao" name="horas_multiplicacao" required>
+            
+            <button type="submit">Calcular</button>
+        </form>
+
+        <div class="result" id="result">
+            <!-- O resultado aparecerá aqui -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtendo os valores do formulário
+            let cultura = document.getElementById('cultura').value;
+            let hectares = parseFloat(document.getElementById('hectares').value);
+            let microorganismos = document.getElementById('microorganismos').value;
+            let capacidadeEquipamento = parseFloat(document.getElementById('capacidade_equipamento').value);
+            let horasMultiplicacao = parseFloat(document.getElementById('horas_multiplicacao').value);
+
+            // Cálculo de litros, equipamentos e tempo de formulação
+            let litrosPorHectare = 1000 / 500;  // 1000 litros para 500 hectares
+            let totalLitros = hectares * litrosPorHectare;
+            let equipamentosNecessarios = capacidadeEquipamento ? Math.ceil(totalLitros / capacidadeEquipamento) : 1;
+            let tempoFormulacao = horasMultiplicacao * equipamentosNecessarios;
+
+            // Exibindo o resultado
+            document.getElementById('result').innerHTML = `
+                <h2>Resultado do Cálculo</h2>
+                <p><strong>Cultura:</strong> ${cultura}</p>
+                <p><strong>Hectares:</strong> ${hectares}</p>
+                <p><strong>Microorganismos:</strong> ${microorganismos}</p>
+                <p><strong>Capacidade do Equipamento:</strong> ${capacidadeEquipamento} litros</p>
+                <p><strong>Horas de Multiplicação:</strong> ${horasMultiplicacao}</p>
+                <h2>Total de Litros Necessários: ${totalLitros.toFixed(2)} litros</h2>
+                <p><strong>Equipamentos Necessários:</strong> ${equipamentosNecessarios}</p>
+                <p><strong>Tempo de Formulação:</strong> ${tempoFormulacao.toFixed(2)} horas</p>
+            `;
+        });
+    </script>
+</body>
+</html>
